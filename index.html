@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biometric Authentication Example</title>
+</head>
+<body>
+  <h1>Biometric Authentication</h1>
+  <button id="authButton">Authenticate with Biometrics</button>
+  <p id="status"></p>
+
+  <script>
+    const authButton = document.getElementById('authButton');
+    const status = document.getElementById('status');
+
+    // Check if WebAuthn is supported
+    if (!window.PublicKeyCredential) {
+      status.textContent = "WebAuthn is not supported by your browser.";
+      authButton.disabled = true;
+    }
+
+    // Biometric authentication handler
+    authButton.addEventListener('click', async () => {
+      try {
+        const credentialRequestOptions = {
+          publicKey: {
+            challenge: new Uint8Array([0x00, 0x01, 0x02, 0x03]),  // Example challenge (this would be dynamically generated)
+            rpId: window.location.hostname,  // Example relying party identifier
+            userVerification: 'required',  // Force biometric auth
+          },
+        };
+
+        const credential = await navigator.credentials.get(credentialRequestOptions);
+
+        if (credential) {
+          status.textContent = "Authentication successful!";
+          console.log('Authenticated credential:', credential);
+        } else {
+          status.textContent = "Authentication failed.";
+        }
+      } catch (error) {
+        console.error('Authentication error:', error);
+        status.textContent = "Error during authentication.";
+      }
+    });
+  </script>
+</body>
+</html>
