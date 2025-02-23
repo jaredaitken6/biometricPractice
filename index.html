@@ -7,43 +7,78 @@
 </head>
 <body>
   <h1>Biometric Authentication</h1>
+  <button id="registerButton">Register Passkey</button>
   <button id="authButton">Authenticate with Biometrics</button>
   <p id="status"></p>
 
   <script>
-    const authButton = document.getElementById('authButton');
-    const status = document.getElementById('status');
 
-    // Check if WebAuthn is supported
-    if (!window.PublicKeyCredential) {
-      status.textContent = "WebAuthn is not supported by your browser.";
-      authButton.disabled = true;
-    }
+  const registerButton = document.getElementById('registerButton');
+  const authButton = document.getElementById('authButton');
+  const status = document.getElementById('status');
 
-    // Biometric authentication handler
-    authButton.addEventListener('click', async () => {
-      try {
-        const credentialRequestOptions = {
-          publicKey: {
-            challenge: new Uint8Array([0x00, 0x01, 0x02, 0x03]),  // Example challenge (this would be dynamically generated)
-            rpId: window.location.hostname,  // Example relying party identifier
-            userVerification: 'required',  // Force biometric auth
+  if (!window.PublicKeyCredential) {
+    status.textContent = "WebAuthn is not supported by your browser.";
+    registerButton.disabled = true;
+    authButton.disabled = true;
+  }
+
+  // **Step 1: Register a Passkey (User creates a passkey)**
+  registerButton.addEventListener('click', async () => {
+    try {
+      const publicKeyCredentialCreationOptions = {
+        publicKey: {
+          challenge: Uint8Array.from('randomChallenge', c => c.charCodeAt(0)), 
+          rp: { name: "My WebAuthn App", id: window.location.hostname },
+          user: {
+            id: Uint8Array.from('user123', c => c.charCodeAt(0)), // Unique User ID
+            name: "user@example.com",
+            displayName: "User",
           },
-        };
-
-        const credential = await navigator.credentials.get(credentialRequestOptions);
-
-        if (credential) {
-          status.textContent = "Authentication successful!";
-          console.log('Authenticated credential:', credential);
-        } else {
-          status.textContent = "Authentication failed.";
+          pubKeyCredParams: [{ type: "public-key", alg: -7 }], // ES256 Algorithm
+          authenticatorSelection: {
+            authenticatorAttachment: "platform", // **Use built-in biometrics**
+            userVerification: "required",
+          },
+          timeout: 60000,
+          attestation: "none",
         }
-      } catch (error) {
-        console.error('Authentication error:', error);
-        status.textContent = "Error during authentication.";
+      };
+
+      const credential = await navigator.credentials.create(publicKeyCredentialCreationOptions);
+      console.log('Registered credential:', credential);
+      status.textContent = "Passkey created successfully!";
+    } catch (error) {
+      console.error('Registration error:', error);
+      status.textContent = "Error during passkey creation.";
+    }
+  });
+
+  // **Step 2: Authenticate with Biometrics (User logs in)**
+  authButton.addEventListener('click', async () => {
+    try {
+      const publicKeyCredentialRequestOptions = {
+        publicKey: {
+          challenge: Uint8Array.from('randomChallenge', c => c.charCodeAt(0)), 
+          rpId: window.location.hostname,
+          allowCredentials: [], // Browser picks the saved passkey
+          userVerification: "required",
+        }
+      };
+
+      const credential = await navigator.credentials.get(publicKeyCredentialRequestOptions);
+      if (credential) {
+        status.textContent = "Authentication successful!";
+        console.log('Authenticated credential:', credential);
+      } else {
+        status.textContent = "Authentication failed.";
       }
-    });
-  </script>
+    } catch (error) {
+      console.error('Authentication error:', error);
+      status.textContent = "Error during authentication.";
+    }
+  });
+</script>
+
 </body>
 </html>
