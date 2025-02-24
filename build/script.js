@@ -1,7 +1,10 @@
 // Import Firebase modules
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+
+import { doc, addDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
 
 const db = window.db; // Get Firestore instance from global variable
+const unusedVariable = "This is not used anywhere";
+
 
 // Select elements
 const registerButton = document.getElementById('registerButton');
