@@ -89,23 +89,32 @@ addBudgetButton.addEventListener('click', async () => {
 // Load budget items from Firebase
 async function loadBudgetItems() {
   budgetList.innerHTML = "";
+  let totalBalance = 0;
+  
   const querySnapshot = await getDocs(collection(db, "budget"));
-  querySnapshot.forEach((doc) => {
+  querySnapshot.forEach((docSnapshot) => {
+    const { item, amount } = docSnapshot.data();
+    totalBalance += amount; // Add income, subtract expenses (assuming negative values for expenses)
+
     const li = document.createElement("li");
-    li.textContent = `${doc.data().item}: $${doc.data().amount}`;
-    
+    li.textContent = `${item}: $${amount}`;
+
     // Delete button
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.addEventListener('click', async () => {
-      await deleteDoc(doc(db, "budget", doc.id));
+      await deleteDoc(doc(db, "budget", docSnapshot.id));
       loadBudgetItems();
     });
 
     li.appendChild(deleteButton);
     budgetList.appendChild(li);
   });
+
+  // Update total balance display
+  document.getElementById("totalBalance").textContent = totalBalance.toFixed(2);
 }
+
 
 // Initial load
 loadBudgetItems();
