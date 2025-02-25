@@ -4,21 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
-  <title>Budget Planner with Biometric Authentication</title>
+  <title>Budget Planner</title>
 </head>
 <body>
-  <button id="registerButton">Register Passkey</button>
-  <button id="authButton">Authenticate with Biometrics</button>
+  <main>
+  <button id="registerButton" aria-label="Register your passkey">Register Passkey</button>
+  <button id="authButton" aria-label="Authenticate using biometrics">Authenticate with Biometrics</button>
   <p id="status"></p>
 
-  <h2>Budget Planner</h2>
-  <input type="text" id="budgetItem" placeholder="Enter expense or income">
-  <input type="number" id="budgetAmount" placeholder="Amount">
+  <header>
+  <h1>Budget Planner</h1>
+  </header>
+  <label for="budgetItem">Name of expense or income:</label>
+  <input type="text" id="budgetItem" placeholder="Name of expense or income">
+  <label for="budgetAmount">Amount (e.g. -20):</label>
+  <input type="number" id="budgetAmount" placeholder="-20">
   <button id="addBudget">Add</button>
   
   <h3>Total Balance: $<span id="totalBalance">0.00</span></h3>
   
+  <h3>Budget Items</h3>
   <ul id="budgetList"></ul>
+</main>
+
+<footer>
+  <p>&copy; 2025 Budget Planner</p>
+</footer>
 
   <!-- Firebase SDK Setup -->
   <script type="module">
