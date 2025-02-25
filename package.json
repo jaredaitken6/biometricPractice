@@ -1,11 +1,11 @@
 {
   "homepage": "https://jaredaitken6.github.io/biometricPractice",
-  "scripts": {
-    "build": "mkdir -p build && cp -r * build",
-    "deploy": "gh-pages -d build",
-    "test": "jest",
-    "lint": "eslint ."
-  },
+"scripts": {
+  "build": "mkdir -p build && cp -r index.html script.js styles.css build/ && cp -r assets build/ 2>/dev/null || true",
+  "deploy": "gh-pages -d build",
+  "test": "jest",
+  "lint": "eslint ."
+},
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "eslint": "^9.21.0",
