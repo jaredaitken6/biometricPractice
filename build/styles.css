@@ -30,14 +30,14 @@
   }
   
   button {
-    background: #007BFF;
+    background: #000000;
     color: white;
     border: none;
     cursor: pointer;
   }
   
   button:hover {
-    background: #0056b3;
+    background: #383838;
   }
   
   /* Budget List */
