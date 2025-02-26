@@ -1,7 +1,7 @@
 {
   "homepage": "https://jaredaitken6.github.io/biometricPractice",
   "scripts": {
-    "build": "if not exist build mkdir build && copy index.html build\\index.html && copy script.js build\\script.js && copy styles.css build\\styles.css && (if exist assets xcopy assets build\\assets /E /I /Y 2>nul)",
+    "build": "mkdir -p build && cp index.html build/ && cp script.js build/ && cp styles.css build/ && cp -r assets build/assets/",
     "deploy": "gh-pages -d build",
     "test": "jest",
     "lint": "eslint ."
