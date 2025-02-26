@@ -1,4 +1,4 @@
-
+/* Reset default styles */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -13,11 +13,13 @@
     background: #fff;
   }
   
+  /* Headings */
   h1, h2 {
     margin-bottom: 10px;
     text-align: center;
   }
   
+  /* Input & Buttons */
   input, button {
     width: 100%;
     padding: 8px;
@@ -38,6 +40,7 @@
     background: #383838;
   }
   
+  /* Budget List */
   ul {
     list-style: none;
     margin-top: 10px;
@@ -50,7 +53,7 @@
     border-bottom: 1px solid #ddd;
   }
   
-  /* Mobile */
+  /* Mobile-Friendly */
   @media (max-width: 600px) {
     body {
       padding: 10px;

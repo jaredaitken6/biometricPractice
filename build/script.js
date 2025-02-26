@@ -2,10 +2,10 @@
 
 import { doc, addDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
 
-const db = window.db; 
+const db = window.db; // Get Firestore instance from global variable
 
 
-
+// Select elements
 const registerButton = document.getElementById('registerButton');
 const authButton = document.getElementById('authButton');
 const status = document.getElementById('status');
@@ -66,8 +66,9 @@ authButton.addEventListener('click', async () => {
   }
 });
 
+// === Firebase CRUD Operations for Budget ===
 
-// Adding new budget item
+// Add new budget item
 addBudgetButton.addEventListener('click', async () => {
   const item = budgetItemInput.value.trim();
   const amount = parseFloat(budgetAmountInput.value.trim());
@@ -92,10 +93,12 @@ async function loadBudgetItems() {
   const querySnapshot = await getDocs(collection(db, "budget"));
   querySnapshot.forEach((docSnapshot) => {
     const { item, amount } = docSnapshot.data();
-    totalBalance += amount; 
+    totalBalance += amount; // Add income, subtract expenses (assuming negative values for expenses)
+
     const li = document.createElement("li");
     li.textContent = `${item}: $${amount}`;
 
+    // Delete button
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.addEventListener('click', async () => {
@@ -107,9 +110,10 @@ async function loadBudgetItems() {
     budgetList.appendChild(li);
   });
 
-  // Update total balance
+  // Update total balance display
   document.getElementById("totalBalance").textContent = totalBalance.toFixed(2);
 }
 
 
+// Initial load
 loadBudgetItems();

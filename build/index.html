@@ -28,7 +28,7 @@
 </main>
 
 <footer>
-  <p>2025 Budget Planner</p>
+  <p>&copy; 2025 Budget Planner</p>
 </footer>
 
   <!-- Firebase SDK Setup -->
@@ -48,13 +48,13 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    window.db = db;
+    window.db = db; // Make db globally accessible
   </script>
 
-  
+  <!-- Link to External JavaScript -->
   <script src="script.js" type="module"></script>
 
-    <!-- Chatbase -->
+    <!-- Chatbase Integration -->
   <script>
     (function() {
       if (!window.chatbase || window.chatbase("getState") !== "initialized") {
