@@ -1,7 +1,7 @@
 {
   "homepage": "https://jaredaitken6.github.io/biometricPractice",
   "scripts": {
-    "build": "mkdir -p build && cp index.html build/ && cp script.js build/ && cp styles.css build/ && cp -r assets build/assets/",
+    "build": "rimraf build && mkdir build && cp index.html build/ && cp script.js build/ && cp styles.css build/ && cp -r assets build/assets/",
     "deploy": "gh-pages -d build",
     "test": "jest",
     "lint": "eslint ."
@@ -11,6 +11,7 @@
     "eslint": "^9.21.0",
     "gh-pages": "^6.3.0",
     "globals": "^16.0.0",
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "rimraf": "^6.0.1"
   }
 }
